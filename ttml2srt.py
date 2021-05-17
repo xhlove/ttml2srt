@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from pathlib import Path
+from merge import generate
 from xml.dom import minidom
 import re
 
@@ -62,6 +64,10 @@ class Ttml2Srt():
         """Read TTML file. Extract <p> elements and various attributes.
         """
 
+        if Path(filepath).is_dir():
+            xmls_path = Path(filepath).resolve().as_posix()
+            filepath = Path(filepath, 'out.ttml').resolve().as_posix()
+            generate(xmls_path, filepath)
         ttml_dom = minidom.parse(filepath)
         self.encoding = ttml_dom.encoding
 
